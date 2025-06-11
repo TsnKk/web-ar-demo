@@ -1,7 +1,6 @@
 import * as THREE from './three.module.js';
-import { GLTFLoader } from './GLTFLoader.js'; // คุณต้องโหลดไฟล์นี้เพิ่มด้วย
+import { GLTFLoader } from './GLTFLoader.js';
 
-// สร้าง scene, camera และ renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
 camera.position.z = 2;
@@ -17,12 +16,11 @@ scene.add(light);
 // โหลดโมเดล
 const loader = new GLTFLoader();
 loader.load(
-  './model/pomegranate.glb',
+  './model/pomegranate.glb',  // ตรวจสอบว่า path ตรงกับที่วางไฟล์
   function (gltf) {
     const model = gltf.scene;
     model.scale.set(0.5, 0.5, 0.5);
     scene.add(model);
-
     animate();
   },
   undefined,
