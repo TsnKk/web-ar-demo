@@ -1,15 +1,30 @@
 <video id="video" autoplay playsinline muted></video>
+
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
+  // ✅ 1. เริ่มต้นอ่าน QR จากกล้อง
   const codeReader = new ZXing.BrowserQRCodeReader();
 
   codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
     if (result) {
       console.log("QR Result:", result.text);
-      codeReader.reset(); // หยุดกล้องหลังสแกน
+
+      // ✅ 2. หยุดการสแกนเมื่อเจอแล้ว
+      codeReader.reset();
+
+      // ✅ 3. ใช้ข้อมูลจาก QR เพื่อแสดงโมเดล AR (ถ้ามีฟังก์ชันโหลด)
       loadARModel(result.text); // ← สมมติคุณมีฟังก์ชันนี้
+
     } else if (err && !(err instanceof ZXing.NotFoundException)) {
+      // ✅ ไม่แสดง error ซ้ำๆ ถ้าแค่หาไม่เจอ
       console.error(err);
     }
   });
+
+  // ✅ ตัวอย่างฟังก์ชัน (คุณจะเขียนเองหรือต่อจาก Three.js ก็ได้)
+  function loadARModel(url) {
+    console.log("กำลังโหลดโมเดลจาก: " + url);
+    // สมมติว่าคุณโหลด glTF ไปแสดงใน Three.js Scene
+    // loader.load(url, (gltf) => { scene.add(gltf.scene); });
+  }
 </script>
