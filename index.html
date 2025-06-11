@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>WebAR with QR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body { margin: 0; padding: 0; overflow: hidden; }
-    #video { position: absolute; width: 100vw; height: 100vh; object-fit: cover; z-index: 1; }
-    canvas { position: absolute; top: 0; left: 0; z-index: 2; }
-  </style>
-</head>
-<body>
-  <video id="video" autoplay playsinline muted></video>
-
-  <!-- ZXing สำหรับสแกน QR -->
-  <script src="https://unpkg.com/@zxing/library@latest"></script>
-
-  <!-- เรียก main app -->
-  <script type="module" src="./Js/app.js"></script>
-</body>
-</html>
+<video id="video" autoplay playsinline></video>
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+<script>
+const codeReader = new ZXing.BrowserQRCodeReader();
+codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+  if (result) {
+    console.log(result.text);
+    // ใช้ result.text เพื่อแสดงวัตถุ AR
+  }
+});
+</script>
