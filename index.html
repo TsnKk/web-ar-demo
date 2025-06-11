@@ -1,11 +1,15 @@
-<video id="video" autoplay playsinline></video>
+<video id="video" autoplay playsinline muted></video>
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
-const codeReader = new ZXing.BrowserQRCodeReader();
-codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
-  if (result) {
-    console.log(result.text);
-    // ใช้ result.text เพื่อแสดงวัตถุ AR
-  }
-});
+  const codeReader = new ZXing.BrowserQRCodeReader();
+
+  codeReader.decodeFromVideoDevice(null, 'video', (result, err) => {
+    if (result) {
+      console.log("QR Result:", result.text);
+      codeReader.reset(); // หยุดกล้องหลังสแกน
+      loadARModel(result.text); // ← สมมติคุณมีฟังก์ชันนี้
+    } else if (err && !(err instanceof ZXing.NotFoundException)) {
+      console.error(err);
+    }
+  });
 </script>
